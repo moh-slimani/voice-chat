@@ -22,10 +22,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Person whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Person whereUsername($value)
  * @mixin \Eloquent
+ * @property string|null $last_seen
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereLastSeen($value)
  */
 class Person extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['username', 'gender'];
+    protected $fillable = ['username', 'gender', 'last_seen'];
 }

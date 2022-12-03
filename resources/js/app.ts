@@ -9,6 +9,8 @@ import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
 import {ZiggyVue} from '../../vendor/tightenco/ziggy/dist/vue.m';
 import {Ziggy} from './ziggy'
 import route from "ziggy-js";
+import { AVPlugin } from 'vue-audio-visual'
+
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -20,7 +22,7 @@ createInertiaApp({
     setup({el, app, props, plugin}) {
         const elementApp = createApp({render: () => h(app, props)});
         elementApp.config.globalProperties.$route = route
-        elementApp.use(plugin).use(ZiggyVue, Ziggy).mount(el);
+        elementApp.use(plugin).use(ZiggyVue, Ziggy).use(AVPlugin).mount(el);
         return elementApp
     },
 }).then(r => {

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\CallAnswered;
+use App\Events\CallEnded;
 use App\Events\CallRequested;
 use App\Events\RemotePeerIceCandidateSent;
 use App\Models\Person;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 
 class PersonController extends Controller
@@ -47,7 +50,9 @@ class PersonController extends Controller
         $person = Person::create([
             'username' => $request->get('username'),
             'gender' => $request->get('gender'),
+            'last_seen' => now()
         ]);
+
 
         return redirect()->route('chat', ['username' => $person->username]);
     }
@@ -64,8 +69,29 @@ class PersonController extends Controller
         return Inertia::render('Chat', compact('person', 'randomPerson'));
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Person $person
+     * @return Collection|Person|null
+     */
+    public function refresh(Request $request, Person $person): \Illuminate\Support\Collection|Person|null
+    {
+        $randomPerson = Person::where('username', '!=', $person->username);
+
+        if ($request->has('g')) {
+            $randomPerson->where('gender', '=', $request->get('g'));
+        }
+
+        return $randomPerson->inRandomOrder()->first();
+    }
+
     public function call(Request $request, Person $person)
     {
+        $person->last_seen = now();
+        $person->save();
+
 
         /** @var Person $from */
         $from = Person::where('username', $request->get('me'))->firstOrFail();
@@ -78,8 +104,28 @@ class PersonController extends Controller
         return null;
     }
 
+    public function hangup(Request $request, Person $person)
+    {
+        $person->last_seen = now();
+        $person->save();
+
+
+        /** @var Person $from */
+        $to = Person::where('username', $request->get('to'))->firstOrFail();
+
+        $from = $person;
+
+        info('call ended from : ' . $from->username . ' for : ' . $to->username);
+
+        event(new CallEnded($from, $to));
+        return null;
+    }
+
     public function answer(Request $request, Person $person)
     {
+        $person->last_seen = now();
+        $person->save();
+
 
         /** @var Person $from */
         $from = Person::where('username', $request->get('me'))->firstOrFail();
@@ -95,6 +141,9 @@ class PersonController extends Controller
     public function candidate(Request $request, Person $person)
     {
 
+        $person->last_seen = now();
+        $person->save();
+
         /** @var Person $from */
         $from = Person::where('username', $request->get('me'))->firstOrFail();
 
@@ -104,6 +153,31 @@ class PersonController extends Controller
 
         event(new RemotePeerIceCandidateSent($from, $to, $request->get('candidate')));
         return null;
+    }
+
+    /**
+     * just tell the server you are still online.
+     *
+     * @param Person $person
+     * @return null
+     */
+    public function checkin(Person $person)
+    {
+        $person->last_seen = now();
+        $person->save();
+        return null;
+    }
+
+    /**
+     * just tell the server you are still laving.
+     *
+     * @param Person $person
+     * @return RedirectResponse
+     */
+    public function checkout(Person $person): \Illuminate\Http\RedirectResponse
+    {
+        $person->delete();
+        return redirect()->route('home');
     }
 
     /**

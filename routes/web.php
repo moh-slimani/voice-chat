@@ -19,10 +19,11 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
-});
+})->name('home');
 
 Route::post('start-chat', [PersonController::class, 'store'])->name('start-chat');
 Route::get('/chat/{username}', [PersonController::class, 'show'])->name('chat');
+Route::get('checkout/{username}', [PersonController::class, 'checkout'])->name('checkout');
 
 
 require __DIR__ . '/auth.php';

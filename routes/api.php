@@ -22,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('call/{username}', [PersonController::class, 'call']);
 Route::post('answer/{username}', [PersonController::class, 'answer']);
 Route::post('candidate/{username}', [PersonController::class, 'candidate']);
+Route::post('checkin/{username}', [PersonController::class, 'checkin']);
+Route::get('refresh/{username}', [PersonController::class, 'refresh']);
+Route::post('hangup/{username}', [PersonController::class, 'hangup']);
