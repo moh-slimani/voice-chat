@@ -341,8 +341,10 @@ onBeforeUnmount(() => {
                 <h3 class="text-red-500 font-bold text-2xl text-center">No one is online</h3>
             </div>
 
-            <div class="relative">
-                <AVMedia v-if="remoteAudio" class="w-full h-12" :media="remoteAudio" line-color="#000" :line-width="1" type="frequ"
+            <div class="relative w-full h-12">
+                <AVMedia v-if="remoteAudio" class="absolute inset-0" :media="remoteAudio" line-color="#000" :line-width="1" type="frequ"
+                         frequ-direction="mo"></AVMedia>
+                <AVMedia v-if="localAudio" class="absolute inset-0" :media="localAudio" line-color="#000" :line-width="1" type="frequ"
                          frequ-direction="mo"></AVMedia>
             </div>
 
