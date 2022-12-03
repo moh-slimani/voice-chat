@@ -3,7 +3,7 @@ import {Head, Link} from '@inertiajs/inertia-vue3'
 import {Person} from "@/types/Person";
 import {onBeforeUnmount, onMounted, reactive, ref} from "vue";
 import {AVMedia} from "vue-audio-visual";
-import {Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
+import {Dialog, TransitionChild, TransitionRoot} from '@headlessui/vue'
 
 
 const props = defineProps<{
@@ -19,6 +19,8 @@ const callData = reactive<{
     callFrom?: Person
     callFromOffer?: string;
     otherPerson?: Person,
+    localAudio?: MediaStream,
+    remoteAudio?: MediaStream,
 }>({
     unavailable: false,
     me: props.person,
@@ -74,8 +76,6 @@ const constraints = {
     audio: true,
     video: false
 };
-const localAudio = ref<MediaStream>()
-const remoteAudio = ref<MediaStream>()
 const callButton = ref<HTMLButtonElement>()
 
 const call = async () => {
@@ -153,7 +153,7 @@ const resetPeer = () => {
     callData.callFrom = undefined
     callData.callFromOffer = undefined
 
-    remoteAudio.value = undefined
+    callData.remoteAudio = undefined
 
     peer.value = createPeerConnection()
 
@@ -215,7 +215,14 @@ const onRemotePeerIceCandidate = async (data: { candidate: string, from: Person 
 
 const gotRemoteStream = (event: RTCTrackEvent) => {
     const [stream] = event.streams;
-    remoteAudio.value = stream;
+    console.log('stream', stream)
+    console.log('callData.remoteAudio', callData.remoteAudio)
+    callData.remoteAudio = stream;
+    console.log('callData.remoteAudio', callData.remoteAudio)
+    console.log('callData.localAudio', callData.localAudio)
+
+    //@ts-ignore
+    document.querySelector('#remoteAudio').srcObject = stream;
 };
 
 peer.value.addEventListener('track', gotRemoteStream);
@@ -243,7 +250,7 @@ onMounted(async () => {
     stream.value = await navigator.mediaDevices.getUserMedia(constraints);
 
     if (stream.value) {
-        localAudio.value = stream.value;
+        callData.localAudio = stream.value;
         // @ts-ignore
         stream.value.getTracks().forEach(track => peer.value.addTrack(track, stream.value));
     }
@@ -342,9 +349,23 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="relative w-full h-12">
-                <AVMedia v-if="remoteAudio" class="absolute w-full inset-0" :media="remoteAudio" line-color="#000" :line-width="1" type="frequ"
+                <audio id="remoteAudio" class="hidden"></audio>
+
+                <AVMedia v-if="callData.remoteAudio"
+                         :key="callData.remoteAudio.id"
+                         class="absolute w-full inset-0"
+                         :media="callData.remoteAudio"
+                         line-color="#000"
+                         :line-width="1"
+                         type="frequ"
                          frequ-direction="mo"></AVMedia>
-                <AVMedia v-if="localAudio" class="absolute w-full inset-0" :media="localAudio" line-color="#000" :line-width="1" type="frequ"
+                <AVMedia v-if="callData.localAudio"
+                         :key="callData.localAudio.id"
+                         class="absolute w-full inset-0"
+                         :media="callData.localAudio"
+                         line-color="#000"
+                         :line-width="1"
+                         type="frequ"
                          frequ-direction="mo"></AVMedia>
             </div>
 
@@ -397,8 +418,13 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="flex flex-row items-center justify-center py-4 space-x-12">
-            <Link class="bg-red-500 h-16 w-16 rounded-full flex justify-center items-center
-                    text-white shadow shadow-md shadow-gray-500"
+            <button v-if="callData.otherPerson" class="bg-red-500 h-16 w-16 rounded-full flex justify-center items-center
+                  text-white shadow shadow-md shadow-gray-500 disabled:bg-gray-300"
+                    disabled>
+                <i class="ri-shut-down-line text-3xl align-middle"></i>
+            </button>
+            <Link v-else class="bg-red-500 h-16 w-16 rounded-full flex justify-center items-center
+                  text-white shadow shadow-md shadow-gray-500 disabled:bg-gray-400"
                   :href="$route('checkout', person.username)">
                 <i class="ri-shut-down-line text-3xl align-middle"></i>
             </Link>
