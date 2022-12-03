@@ -15,14 +15,21 @@ const callData = reactive<{
     me: props.person
 })
 
+const iceConfiguration = {
+    iceServers: [
+        {
+            urls: "stun:stun.stunprotocol.org"
+        },
+        {
+            urls: 'turn:openrelay.metered.ca:80',
+            username: 'openrelayproject',
+            credentials: 'openrelayproject'
+        }
+    ]
+}
+
 const createPeerConnection = () => {
-    return new RTCPeerConnection({
-        iceServers: [
-            {
-                urls: "stun:stun.stunprotocol.org"
-            }
-        ]
-    });
+    return new RTCPeerConnection(iceConfiguration);
 };
 
 const peer = createPeerConnection();
