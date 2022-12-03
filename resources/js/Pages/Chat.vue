@@ -249,7 +249,7 @@ const showModal = () => {
 onMounted(async () => {
     stream.value = await navigator.mediaDevices.getUserMedia(constraints);
     // @ts-ignore
-    document.querySelector('#localAudio').srcObject = stream;
+    document.querySelector('#localAudio').srcObject = stream.value;
 
     if (stream.value) {
         callData.localAudio = stream.value;
