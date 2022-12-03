@@ -32,3 +32,5 @@ window.Echo = new Echo({
     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
 });
+
+document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + 'px');
