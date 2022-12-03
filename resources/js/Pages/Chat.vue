@@ -342,9 +342,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="relative">
-                <AVMedia class="w-full h-12" :media="localAudio" line-color="#000" :line-width="1" type="frequ"
-                         frequ-direction="mo"></AVMedia>
-                <AVMedia v-if="remoteAudio" class="w-full h-12" :media="remoteAudio" type="frequ"
+                <AVMedia v-if="remoteAudio" class="w-full h-12" :media="remoteAudio" line-color="#000" :line-width="1" type="frequ"
                          frequ-direction="mo"></AVMedia>
             </div>
 
