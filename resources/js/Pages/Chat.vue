@@ -83,11 +83,12 @@ const onMediaAnswer = async (data: { answer: string, from: Person }) => {
 
 const onIceCandidateEvent = async (event: RTCPeerConnectionIceEvent) => {
 
-    await window.axios.post(`/api/candidate/${props.randomPerson.username}`, {
-        me: callData.me.username,
-        to: callData.otherPerson?.username,
-        candidate: JSON.stringify(event.candidate)
-    })
+    if (callData.otherPerson)
+        await window.axios.post(`/api/candidate/${props.randomPerson.username}`, {
+            me: callData.me.username,
+            to: callData.otherPerson?.username,
+            candidate: JSON.stringify(event.candidate)
+        })
 };
 
 peer.onicecandidate = onIceCandidateEvent;
