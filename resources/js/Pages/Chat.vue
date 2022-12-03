@@ -349,7 +349,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="relative w-full h-12">
-                <audio id="remoteAudio" class="hidden"></audio>
+                <audio id="remoteAudio" class="hidden" autoplay></audio>
 
                 <AVMedia v-if="callData.remoteAudio"
                          :key="callData.remoteAudio.id"
