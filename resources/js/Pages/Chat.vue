@@ -162,7 +162,7 @@ const resetPeer = () => {
 
     if (stream) {
         // @ts-ignore
-        stream.getTracks().forEach(track => peer.value.addTrack(track, stream));
+        stream.getTracks().forEach(track => peer.addTrack(track, stream));
     }
 
     if (callButton.value) {
