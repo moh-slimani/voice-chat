@@ -70,8 +70,6 @@ class PersonController extends Controller
         /** @var Person $from */
         $from = Person::where('username', $request->get('me'))->firstOrFail();
 
-        info($from);
-
         $to = $person;
 
         info('offer from : ' . $from->username . ' for : ' . $to->username);
@@ -85,8 +83,6 @@ class PersonController extends Controller
 
         /** @var Person $from */
         $from = Person::where('username', $request->get('me'))->firstOrFail();
-
-        info($from);
 
         $to = $person;
 
@@ -102,11 +98,9 @@ class PersonController extends Controller
         /** @var Person $from */
         $from = Person::where('username', $request->get('me'))->firstOrFail();
 
-        info($from);
-
         $to = $person;
 
-        info('answer from : ' . $from->username . ' for : ' . $to->username);
+        info('candidate from : ' . $from->username . ' for : ' . $to->username);
 
         event(new RemotePeerIceCandidateSent($from, $to, $request->get('candidate')));
         return null;
