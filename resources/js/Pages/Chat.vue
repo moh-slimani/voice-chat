@@ -44,7 +44,7 @@ const peer = createPeerConnection();
 
 const constraints = {
     audio: true,
-    video: true
+    video: false
 };
 const localVideo = ref<HTMLVideoElement>()
 const remoteVideo = ref<HTMLVideoElement>()
@@ -165,13 +165,13 @@ onMounted(async () => {
             </div>
 
             <div>
-                Remote camera:
-                <video ref="remoteVideo" id="remoteVideo" playsinline autoplay></video>
+                Remote Media:
+                <audio ref="remoteVideo" id="remoteVideo" playsinline autoplay></audio>
             </div>
 
             <div>
-                My camera:
-                <video ref="localVideo" id="localVideo" playsinline autoplay muted></video>
+                My Media:
+                <audio ref="localVideo" id="localVideo" playsinline autoplay muted></audio>
             </div>
 
         </div>
