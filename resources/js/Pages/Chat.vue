@@ -69,8 +69,8 @@ const createPeerConnection = () => {
     });
 };
 
-const peer = ref<RTCPeerConnection>(createPeerConnection());
-const stream = ref<MediaStream>()
+let peer = createPeerConnection();
+let stream: MediaStream | null = null
 
 const constraints = {
     audio: true,
@@ -86,14 +86,14 @@ const call = async () => {
     callData.otherPerson = callData.randomPerson
 
     if (callData.otherPerson) {
-        const localPeerOffer = await peer.value.createOffer();
+        const localPeerOffer = await peer.createOffer();
 
         await window.axios.post(`/api/call/${callData.otherPerson.username}`, {
             me: callData.me.username,
             to: callData.otherPerson.username,
             offer: JSON.stringify(localPeerOffer)
         }).then(async () => {
-            await peer.value.setLocalDescription(new RTCSessionDescription(localPeerOffer));
+            await peer.setLocalDescription(new RTCSessionDescription(localPeerOffer));
 
             console.log(localPeerOffer)
         }).catch(() => {
@@ -112,9 +112,9 @@ const answer = async () => {
 
     if (callData.callFromOffer && callData.callFrom) {
         try {
-            await peer.value.setRemoteDescription(new RTCSessionDescription(JSON.parse(callData.callFromOffer)));
-            const peerAnswer = await peer.value.createAnswer();
-            await peer.value.setLocalDescription(new RTCSessionDescription(peerAnswer));
+            await peer.setRemoteDescription(new RTCSessionDescription(JSON.parse(callData.callFromOffer)));
+            const peerAnswer = await peer.createAnswer();
+            await peer.setLocalDescription(new RTCSessionDescription(peerAnswer));
 
             console.log(peerAnswer)
 
@@ -146,7 +146,7 @@ const hangupIncoming = async () => {
 const resetPeer = () => {
     open.value = false
 
-    peer.value.close()
+    peer.close()
 
 
     callData.otherPerson = undefined
@@ -155,14 +155,14 @@ const resetPeer = () => {
 
     callData.remoteAudio = undefined
 
-    peer.value = createPeerConnection()
+    peer = createPeerConnection()
 
-    peer.value.onicecandidate = onIceCandidateEvent;
-    peer.value.addEventListener('track', gotRemoteStream);
+    peer.onicecandidate = onIceCandidateEvent;
+    peer.addEventListener('track', gotRemoteStream);
 
-    if (stream.value) {
+    if (stream) {
         // @ts-ignore
-        stream.value.getTracks().forEach(track => peer.value.addTrack(track, stream.value));
+        stream.getTracks().forEach(track => peer.value.addTrack(track, stream));
     }
 
     if (callButton.value) {
@@ -189,7 +189,7 @@ const onCallEnded = async () => {
 const onMediaAnswer = async (data: { answer: string, from: Person }) => {
     console.log(data)
     callData.otherPerson = data.from
-    await peer.value.setRemoteDescription(new RTCSessionDescription(JSON.parse(data.answer)));
+    await peer.setRemoteDescription(new RTCSessionDescription(JSON.parse(data.answer)));
 };
 
 const onIceCandidateEvent = async (event: RTCPeerConnectionIceEvent) => {
@@ -202,12 +202,12 @@ const onIceCandidateEvent = async (event: RTCPeerConnectionIceEvent) => {
     }
 };
 
-peer.value.onicecandidate = onIceCandidateEvent;
+peer.onicecandidate = onIceCandidateEvent;
 
 const onRemotePeerIceCandidate = async (data: { candidate: string, from: Person }) => {
     try {
         const candidate = new RTCIceCandidate(JSON.parse(data.candidate));
-        await peer.value.addIceCandidate(candidate);
+        await peer.addIceCandidate(candidate);
     } catch (error) {
         // Handle error
     }
@@ -225,7 +225,7 @@ const gotRemoteStream = (event: RTCTrackEvent) => {
     document.querySelector('#remoteAudio').srcObject = stream;
 };
 
-peer.value.addEventListener('track', gotRemoteStream);
+peer.addEventListener('track', gotRemoteStream);
 
 const refreshing = ref(false)
 
@@ -247,14 +247,14 @@ const showModal = () => {
 }
 
 onMounted(async () => {
-    stream.value = await navigator.mediaDevices.getUserMedia(constraints);
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
     // @ts-ignore
     document.querySelector('#localAudio').srcObject = stream.value;
 
-    if (stream.value) {
-        callData.localAudio = stream.value;
+    if (stream) {
+        callData.localAudio = stream;
         // @ts-ignore
-        stream.value.getTracks().forEach(track => peer.value.addTrack(track, stream.value));
+        stream.getTracks().forEach(track => peer.value.addTrack(track, stream));
     }
 
     window.Echo.channel(`call.${props.person.username}`)
