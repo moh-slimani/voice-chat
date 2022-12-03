@@ -32,7 +32,7 @@ const submit = () => {
                    placeholder="@username"
                    autofocus
                    required
-                   class="max-w-lg block text-center w-full rounded-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
+                   class="max-w-xs block text-center w-full rounded-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"/>
             <div v-show="form.errors.username">
                 <p class="text-sm text-red-600">
                     {{ form.errors.username }}
@@ -42,12 +42,14 @@ const submit = () => {
             <select
                 v-model="form.gender"
                 required
-                class="max-w-lg block rounded-full text-center w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                class="max-w-xs block rounded-full text-center w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
                 <option value="m">Male</option>
                 <option value="f">Female</option>
             </select>
 
-            <button type="submit" class=" max-w-lg bg-green-500 text-white block py-2 w-full rounded-full shadow-md">
+            <button type="submit" class="max-w-xs block rounded-full text-center w-full shadow-sm
+            py-2
+            focus:ring-indigo-500 focus:border-indigo-500 text-white bg-green-500  border-gray-300 rounded-md">
                 start
             </button>
         </div>
