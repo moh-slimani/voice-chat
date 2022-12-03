@@ -248,6 +248,8 @@ const showModal = () => {
 
 onMounted(async () => {
     stream.value = await navigator.mediaDevices.getUserMedia(constraints);
+    // @ts-ignore
+    document.querySelector('#localAudio').srcObject = stream;
 
     if (stream.value) {
         callData.localAudio = stream.value;
@@ -350,6 +352,7 @@ onBeforeUnmount(() => {
 
             <div class="relative w-full h-12">
                 <audio id="remoteAudio" class="hidden" autoplay></audio>
+                <audio id="localAudio" class="hidden" autoplay muted></audio>
 
                 <AVMedia v-if="callData.remoteAudio"
                          :key="callData.remoteAudio.id"
