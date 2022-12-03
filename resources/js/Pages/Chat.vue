@@ -254,7 +254,7 @@ onMounted(async () => {
     if (stream) {
         callData.localAudio = stream;
         // @ts-ignore
-        stream.getTracks().forEach(track => peer.value.addTrack(track, stream));
+        stream.getTracks().forEach(track => peer.addTrack(track, stream));
     }
 
     window.Echo.channel(`call.${props.person.username}`)
