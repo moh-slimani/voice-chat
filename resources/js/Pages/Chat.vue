@@ -17,26 +17,30 @@ const callData = reactive<{
 
 const createPeerConnection = () => {
     return new RTCPeerConnection({
-        iceServers: [
-            {
-                urls: "stun:openrelay.metered.ca:80",
-            },
-            {
-                urls: "turn:openrelay.metered.ca:80",
-                username: "openrelayproject",
-                credential: "openrelayproject",
-            },
-            {
-                urls: "turn:openrelay.metered.ca:443",
-                username: "openrelayproject",
-                credential: "openrelayproject",
-            },
-            {
-                urls: "turn:openrelay.metered.ca:443?transport=tcp",
-                username: "openrelayproject",
-                credential: "openrelayproject",
-            },
-        ],
+        username: "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
+        iceServers: [{
+            // @ts-ignore
+            "url": "stun:global.stun.twilio.com:3478?transport=udp",
+            "urls": "stun:global.stun.twilio.com:3478?transport=udp"
+        }, {
+            "credential": "MdI9NbpyquY/dzqXuO27Yc+fEdfl6Ree8CWbYz+X168=",
+            "username": "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
+            // @ts-ignore
+            "url": "turn:global.turn.twilio.com:3478?transport=udp",
+            "urls": "turn:global.turn.twilio.com:3478?transport=udp"
+        }, {
+            "credential": "MdI9NbpyquY/dzqXuO27Yc+fEdfl6Ree8CWbYz+X168=",
+            "username": "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
+            // @ts-ignore
+            "url": "turn:global.turn.twilio.com:3478?transport=tcp",
+            "urls": "turn:global.turn.twilio.com:3478?transport=tcp"
+        }, {
+            "credential": "MdI9NbpyquY/dzqXuO27Yc+fEdfl6Ree8CWbYz+X168=",
+            "username": "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
+            // @ts-ignore
+            "url": "turn:global.turn.twilio.com:443?transport=tcp",
+            "urls": "turn:global.turn.twilio.com:443?transport=tcp"
+        }],
     });
 };
 
