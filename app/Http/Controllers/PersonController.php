@@ -65,7 +65,9 @@ class PersonController extends Controller
      */
     public function show(Person $person): \Inertia\Response
     {
-        $randomPerson = Person::all()->where('username', '!=', $person->username)->random();
+        $randomPerson = Person::where('username', '!=', $person->username)
+            ->inRandomOrder()
+            ->first();
         return Inertia::render('Chat', compact('person', 'randomPerson'));
     }
 
