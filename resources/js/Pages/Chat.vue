@@ -40,33 +40,31 @@ const cycleLookingFor = () => {
     }
 }
 
+const turrnconf = {
+    username: 'a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237',
+    iceServers: [{
+        "url": "stun:global.stun.twilio.com:3478?transport=udp",
+        "urls": "stun:global.stun.twilio.com:3478?transport=udp"
+    }, {
+        "credential": "6+1ihT8+9zT/PCj6vR/dqpmc4/A7SrkNTAkXQ8Nlhqg=",
+        "username": "a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237",
+        "url": "turn:global.turn.twilio.com:3478?transport=udp",
+        "urls": "turn:global.turn.twilio.com:3478?transport=udp"
+    }, {
+        "credential": "6+1ihT8+9zT/PCj6vR/dqpmc4/A7SrkNTAkXQ8Nlhqg=",
+        "username": "a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237",
+        "url": "turn:global.turn.twilio.com:3478?transport=tcp",
+        "urls": "turn:global.turn.twilio.com:3478?transport=tcp"
+    }, {
+        "credential": "6+1ihT8+9zT/PCj6vR/dqpmc4/A7SrkNTAkXQ8Nlhqg=",
+        "username": "a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237",
+        "url": "turn:global.turn.twilio.com:443?transport=tcp",
+        "urls": "turn:global.turn.twilio.com:443?transport=tcp"
+    }]
+}
+
 const createPeerConnection = () => {
-    return new RTCPeerConnection({
-        username: "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
-        iceServers: [{
-            // @ts-ignore
-            "url": "stun:global.stun.twilio.com:3478?transport=udp",
-            "urls": "stun:global.stun.twilio.com:3478?transport=udp"
-        }, {
-            "credential": "MdI9NbpyquY/dzqXuO27Yc+fEdfl6Ree8CWbYz+X168=",
-            "username": "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
-            // @ts-ignore
-            "url": "turn:global.turn.twilio.com:3478?transport=udp",
-            "urls": "turn:global.turn.twilio.com:3478?transport=udp"
-        }, {
-            "credential": "MdI9NbpyquY/dzqXuO27Yc+fEdfl6Ree8CWbYz+X168=",
-            "username": "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
-            // @ts-ignore
-            "url": "turn:global.turn.twilio.com:3478?transport=tcp",
-            "urls": "turn:global.turn.twilio.com:3478?transport=tcp"
-        }, {
-            "credential": "MdI9NbpyquY/dzqXuO27Yc+fEdfl6Ree8CWbYz+X168=",
-            "username": "c698af7009f3ddebd54b7953df2c583704c271a3c745055267ff633ebd8ff21c",
-            // @ts-ignore
-            "url": "turn:global.turn.twilio.com:443?transport=tcp",
-            "urls": "turn:global.turn.twilio.com:443?transport=tcp"
-        }],
-    });
+    return new RTCPeerConnection(turrnconf);
 };
 
 let peer = createPeerConnection();
