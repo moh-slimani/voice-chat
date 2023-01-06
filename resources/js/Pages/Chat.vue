@@ -41,23 +41,23 @@ const cycleLookingFor = () => {
 }
 
 const turrnconf = {
-    username: 'a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237',
+    username: 'f92b0f1d19cb44181d3bbc10bce119758511d054a7558883c530ce7966e43d47',
     iceServers: [{
         "url": "stun:global.stun.twilio.com:3478?transport=udp",
         "urls": "stun:global.stun.twilio.com:3478?transport=udp"
     }, {
-        "credential": "6+1ihT8+9zT/PCj6vR/dqpmc4/A7SrkNTAkXQ8Nlhqg=",
-        "username": "a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237",
+        "credential": "/VmkY9miUxrVbgIF2j8GKwVEuTE2ckTZ9riDW1rYj7k=",
+        "username": "f92b0f1d19cb44181d3bbc10bce119758511d054a7558883c530ce7966e43d47",
         "url": "turn:global.turn.twilio.com:3478?transport=udp",
         "urls": "turn:global.turn.twilio.com:3478?transport=udp"
     }, {
-        "credential": "6+1ihT8+9zT/PCj6vR/dqpmc4/A7SrkNTAkXQ8Nlhqg=",
-        "username": "a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237",
+        "credential": "/VmkY9miUxrVbgIF2j8GKwVEuTE2ckTZ9riDW1rYj7k=",
+        "username": "f92b0f1d19cb44181d3bbc10bce119758511d054a7558883c530ce7966e43d47",
         "url": "turn:global.turn.twilio.com:3478?transport=tcp",
         "urls": "turn:global.turn.twilio.com:3478?transport=tcp"
     }, {
-        "credential": "6+1ihT8+9zT/PCj6vR/dqpmc4/A7SrkNTAkXQ8Nlhqg=",
-        "username": "a5d061f490d15a291fed0a0a874e3832e58c4231b8e1d2a4ed1c69dd41d1a237",
+        "credential": "/VmkY9miUxrVbgIF2j8GKwVEuTE2ckTZ9riDW1rYj7k=",
+        "username": "f92b0f1d19cb44181d3bbc10bce119758511d054a7558883c530ce7966e43d47",
         "url": "turn:global.turn.twilio.com:443?transport=tcp",
         "urls": "turn:global.turn.twilio.com:443?transport=tcp"
     }]
